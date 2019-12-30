@@ -15,9 +15,9 @@ const Cells = props => {
 			}
 
 		cells.push(
-			<div key={i} className="cells-row">
+			<tr key={i} className="cells-row">
 				{columns}
-			</div>
+			</tr>
 			)
 		}
 
@@ -33,7 +33,7 @@ const Cells = props => {
 	
 
 	return (
-			<div>{createCells(3, 3)}</div>
+			<table>{createCells(3, 3)}</table>
 		)
 }
 

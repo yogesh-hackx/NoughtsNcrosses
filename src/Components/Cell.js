@@ -1,5 +1,12 @@
 import React from 'react'
 
-const Cell = props => <button className="cell">{props.value}</button>
+const Cell = props => {
+	return(
+		<td>
+			<button className="cell">{props.value}</button>
+		</td>
+		)
+	}
+	
 
 export default Cell
