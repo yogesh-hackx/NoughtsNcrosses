@@ -25,6 +25,19 @@ function App() {
   let gameChannel = null
   let roomId = null
 
+  const componentDidUpdate = () => {
+    if ( lobbyChannel != null ) {
+      pubnub.getMessage(lobbyChannel, (msg) => {
+        if ( msg.message.notRoomCreater ) {
+          gameChannel = 'noughtsandcrosses-' + roomId
+          pubnub.subscribe({
+            channels: [gameChannel]
+          })
+        }
+      })
+    }
+  }
+
   const onPressCreate = (event) => {
     roomId = shortid.generate().substring(0, 3)
     lobbyChannel = 'noughtsandcrosses-' + roomId
