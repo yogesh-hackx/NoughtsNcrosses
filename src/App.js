@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Cells from './Components/Cells'
 import PubNubReact from 'pubnub-react'
 import shortid from 'shortid'
 import Swal from "sweetalert2"
 import Credentials from './Credentials'
+import Game from './Components/Game'
 import './App.css';
 
 function App() {
 
-  let pubnub = new PubNubReact({
+  var pubnub = new PubNubReact({
     publishKey: Credentials.publishKey,
     subscribeKey: Credentials.subscribeKey
   })
@@ -21,22 +22,40 @@ function App() {
     myTurn: false,
   })
 
-  let lobbyChannel = null
-  let gameChannel = null
-  let roomId = null
+  console.log("Helllooooooo")
 
-  const componentDidUpdate = () => {
+  var lobbyChannel = null
+  var gameChannel = useRef("")
+  var roomId = null
+
+  useEffect (() => {
     if ( lobbyChannel != null ) {
       pubnub.getMessage(lobbyChannel, (msg) => {
-        if ( msg.message.notRoomCreater ) {
-          gameChannel = 'noughtsandcrosses-' + roomId
+        if ( msg.message.notRoomCreator ) {
+          gameChannel.current = 'noughtsandcrosses-' + roomId
           pubnub.subscribe({
-            channels: [gameChannel]
+            channels: [gameChannel.current]
           })
+
+          setState({
+            piece: state.piece,
+            isPlaying: true, // Updating this Variable
+            isRoomCreater: state.isRoomCreater,
+            isDisabled: state.isDisabled,
+            myTurn: state.myTurn,
+          })
+
+          Swal.close()
         }
       })
     }
-  }
+
+    return () => {
+      pubnub.unsubscribe({
+        channels: [lobbyChannel, gameChannel.current]
+      })
+    }
+  })
 
   const onPressCreate = (event) => {
     roomId = shortid.generate().substring(0, 3)
@@ -69,7 +88,14 @@ function App() {
       input: 'text',
       allowOutsideClick: false,
       inputPlaceholder: 'Enter Room ID',
-      showCancelButton: true
+      showCancelButton: true,
+      confirmButtonText: 'OK',
+      customClass: {
+        heightAuto: false,
+        popup: 'popup-class',
+        confirmButton: 'join-button-class ',
+        cancelButton: 'join-button-class'
+    } 
     }).then((result) => {
       if ( result.value ) {
         joinRoom(result.value)
@@ -82,9 +108,9 @@ function App() {
     lobbyChannel = 'noughtsandcrosses-' + roomId
 
     pubnub.hereNow({
-      channels: [lobbyChannel]
+      channels: [lobbyChannel],
     }).then((response) => {
-        if ( response.totalOccupancy <2) {
+        if ( response.totalOccupancy < 2) {
             pubnub.subscribe({
               channels: [lobbyChannel],
               withPresence: true
@@ -100,7 +126,7 @@ function App() {
 
           pubnub.publish({
             message: {
-              notRoomCreater: true,
+              notRoomCreator: true,
             },
             channel: lobbyChannel
           })
@@ -110,6 +136,12 @@ function App() {
               title: 'Error',
               text: 'Room Currently Full.',
               icon: 'error',
+              customClass: {
+                heightAuto: false,
+                title: 'title-class',
+                popup: 'popup-class',
+                confirmButton: 'button-class'
+            }
           })
         }
     }).catch((error) => {
@@ -117,6 +149,23 @@ function App() {
     })
   }
 
+  const endGame =() => {
+    setState({
+      piece: '',
+      isPlaying: false,
+      isRoomCreater: false,
+      isDisabled: false,
+      myTurn: false,
+    })
+
+    lobbyChannel = null
+    gameChannel.current = null
+    roomId = null
+
+    pubnub.unsubscribe({
+      channels: [lobbyChannel, gameChannel.current]
+    })
+  }
 
   return (
     <div className="App">
@@ -127,7 +176,7 @@ function App() {
       <div className="game">
         <div className="cells">
           <Cells 
-            cell={0}
+            squares={0}
             onClick={index => null}
           />
         </div>
@@ -150,8 +199,17 @@ function App() {
     }
 
     {
-      // Game Running Initiate
-
+      state.isPlaying && 
+      <Game
+        pubnub={pubnub}
+        gameChannel={gameChannel.current}
+        piece={state.piece}
+        isRoomCreater={state.isRoomCreater}
+        myTurn={state.myTurn}
+        xUsername={state.xUsername}
+        oUsername={state.oUsername}
+        endGame={endGame} 
+      />
     }
     </div>
   );

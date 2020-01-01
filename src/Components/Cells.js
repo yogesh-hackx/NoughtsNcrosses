@@ -27,7 +27,11 @@ const Cells = props => {
 
 	const createCell = i => {
 		return (
-			<Cell key={i} />			
+			<Cell
+				key={i}
+				value={props.squares[i]}
+				onClick={() => props.onClick(i)} 
+			/>			
 			)
 		}
 	
