@@ -1,18 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import Cells from './Components/Cells'
-import PubNubReact from 'pubnub-react'
+import Main from './Main'
 import shortid from 'shortid'
 import Swal from "sweetalert2"
-import Credentials from './Credentials'
+
 import Game from './Components/Game'
 import './App.css';
 
-function App() {
 
-  var pubnub = new PubNubReact({
-    publishKey: Credentials.publishKey,
-    subscribeKey: Credentials.subscribeKey
-  })
+function App(props) {
 
   const [state, setState] = useState({
     piece: '',
@@ -22,55 +18,25 @@ function App() {
     myTurn: false,
   })
 
-  console.log("Helllooooooo")
+  const pubnub = props.pubnub
 
-  var lobbyChannel = null
-  var gameChannel = useRef("")
-  var roomId = null
-
-  useEffect (() => {
-    if ( lobbyChannel != null ) {
-      pubnub.getMessage(lobbyChannel, (msg) => {
-        if ( msg.message.notRoomCreator ) {
-          gameChannel.current = 'noughtsandcrosses-' + roomId
-          pubnub.subscribe({
-            channels: [gameChannel.current]
-          })
-
-          setState({
-            piece: state.piece,
-            isPlaying: true, // Updating this Variable
-            isRoomCreater: state.isRoomCreater,
-            isDisabled: state.isDisabled,
-            myTurn: state.myTurn,
-          })
-
-          Swal.close()
-        }
-      })
-    }
-
-    return () => {
-      pubnub.unsubscribe({
-        channels: [lobbyChannel, gameChannel.current]
-      })
-    }
-  })
+  var gameChannel = props.gameChannel
 
   const onPressCreate = (event) => {
-    roomId = shortid.generate().substring(0, 3)
-    lobbyChannel = 'noughtsandcrosses-' + roomId
+    props.Main.roomId = shortid.generate().substring(0, 3)
+    props.lobbyChannel = 'noughtsandcrosses-' + props.this.roomId
+    console.log("Inside onPressCreate: "+ props.props.lobbyChannel)
 
     pubnub.subscribe({
-      channels: [lobbyChannel],
+      channels: [props.lobbyChannel],
       withPresence: true
     })
 
     Swal.fire({
       allowOutsideClick: false,
       icon: 'success',
-      title: roomId,
-      text: 'Share this RoomID with your friend',
+      title: this.roomId,
+      text: 'Share this Room ID with your friend',
       width: 275,
     })
 
@@ -104,15 +70,15 @@ function App() {
   }
 
   const joinRoom = (value) => {
-    roomId = value
-    lobbyChannel = 'noughtsandcrosses-' + roomId
+    this.roomId = value
+    props.lobbyChannel = 'noughtsandcrosses-' + this.roomId
 
     pubnub.hereNow({
-      channels: [lobbyChannel],
+      channels: [props.lobbyChannel],
     }).then((response) => {
         if ( response.totalOccupancy < 2) {
             pubnub.subscribe({
-              channels: [lobbyChannel],
+              channels: [props.lobbyChannel],
               withPresence: true
             })
 
@@ -128,7 +94,7 @@ function App() {
             message: {
               notRoomCreator: true,
             },
-            channel: lobbyChannel
+            channel: props.lobbyChannel
           })
         }
         else {
@@ -149,7 +115,7 @@ function App() {
     })
   }
 
-  const endGame =() => {
+  const endGame = () => {
     setState({
       piece: '',
       isPlaying: false,
@@ -158,12 +124,12 @@ function App() {
       myTurn: false,
     })
 
-    lobbyChannel = null
-    gameChannel.current = null
-    roomId = null
+    props.lobbyChannel = null
+    gameChannel = null
+    this.roomId = null
 
     pubnub.unsubscribe({
-      channels: [lobbyChannel, gameChannel.current]
+      channels: [props.lobbyChannel, gameChannel]
     })
   }
 
@@ -202,7 +168,7 @@ function App() {
       state.isPlaying && 
       <Game
         pubnub={pubnub}
-        gameChannel={gameChannel.current}
+        gameChannel={gameChannel}
         piece={state.piece}
         isRoomCreater={state.isRoomCreater}
         myTurn={state.myTurn}
