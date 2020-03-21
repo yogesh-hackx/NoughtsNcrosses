@@ -4,15 +4,15 @@ import Board from "./Components/Board";
 import PubNubReact from "pubnub-react";
 import Swal from "sweetalert2";
 import shortid from "shortid";
-import Credentials from './Credentials'
+// import Credentials from './Credentials'
 import WaveContainer from "./Components/WaveContainer";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.pubnub = new PubNubReact({
-      publishKey: Credentials.publishKey,
-      subscribeKey: Credentials.subscribeKey
+      publishKey: REACT_APP_PUB_KEY,
+      subscribeKey: REACT_APP_SUB_KEY
     });
 
     this.inputRef = React.createRef()
