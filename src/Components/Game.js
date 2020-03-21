@@ -54,7 +54,7 @@ class Game extends React.Component {
         allowOutsideClick: false,
         title: title,
         text: "Waiting for a new round...",
-        confirmButtonColor: "rgb(208,33,41)",
+        confirmButtonColor: "(73, 118, 216)",
         width: 275,
         customClass: {
           heightAuto: false,
