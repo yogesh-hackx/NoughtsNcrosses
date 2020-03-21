@@ -214,25 +214,29 @@ class Game extends React.Component {
   render() {
     let status;
     // Change to current player's turn
-    status = `${this.state.whosTurn ? "Your turn" : "Opponent's turn"}`;
+    status = `${this.state.whosTurn ? "YOUR TURN" : "OPPONENT'S TURN"}`;
 
     return (
       <div className="game">
         <div className="board">
+          <p className="status-info">{status}</p>
           <Board
             squares={this.state.squares}
             onClick={index => this.onMakeMove(index)}
           />
-          <p className="status-info">{status}</p>
         </div>
 
         <div className="scores-container">
-          <div>
-            <p>{this.props.xUsername}: {this.state.xScore} </p>
+          <div className="score-board">
+            <p>
+              {this.props.xUsername}: {this.state.xScore}{" "}
+            </p>
           </div>
 
-          <div>
-            <p>{this.props.oUsername}: {this.state.oScore} </p>
+          <div className="score-board">
+            <p>
+              {this.props.oUsername}: {this.state.oScore}{" "}
+            </p>
           </div>
         </div>
       </div>

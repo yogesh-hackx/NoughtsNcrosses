@@ -2,8 +2,18 @@ table {
   border-collapse: collapse;
   border: 50px solid #F3F3F3;
   margin: auto;
-  margin-top: 30%;
+  margin-top: -40px;
+  margin-bottom: -20px;
 }
+
+.status-info{
+  margin-top: 0px;
+  font-family: "Montserrat";
+  font-weight: 500;
+  letter-spacing: 5pt;
+  color: rgb(189, 90, 235);
+}
+
 table td {
   width: 85px;
   height: 85px;
@@ -15,7 +25,7 @@ table tr:first-child td {
 }
 table tr td:first-child {
   border-left: 0;
-  border-right: 15px solid #5587EA;
+  border-right: 15px solid rgb(85, 135, 234);
 }
 
 table tr:last-child td {
@@ -78,12 +88,13 @@ svg {
   background-color: transparent;
   border-radius: 0;
   border: none;
-
+  margin-bottom: 50px;
   -webkit-appearance: none;
   -moz-appearance: none;
 
   font-family: inherit;
   font-size: 1em;
+  text-align: center;
 }
 
 .field__input:focus::-webkit-input-placeholder{
@@ -147,81 +158,6 @@ LEVEL 3. PRESENTATION STYLES
   border-bottom: var(--uiFieldBorderWidth) solid var(--uiFieldBorderColor);  
 }
 
-.a-field__input::-webkit-input-placeholder{
-  opacity: 0;
-  transition: opacity .2s ease-out;
-}
-
-.a-field__input::-moz-placeholder{
-  opacity: 0;
-  transition: opacity .2s ease-out;
-}
-
-.a-field__input:not(:placeholder-shown) ~ .a-field__label-wrap .a-field__label{
-  opacity: 0;
-  bottom: var(--uiFieldPaddingBottom);
-}
-
-.a-field__input:focus::-webkit-input-placeholder{
-  opacity: 1;
-  transition-delay: .2s;
-}
-
-.a-field__input:focus::-moz-placeholder{
-  opacity: 1;
-  transition-delay: .2s;
-}
-
-.a-field__label-wrap{
-  box-sizing: border-box;
-  width: 100%;
-  height: var(--uiFieldHeight);	
-
-  pointer-events: none;
-  cursor: text;
-
-  position: absolute;
-  bottom: 0;
-  left: 0;
-}
-
-.a-field__label{
-  position: absolute;
-  left: var(--uiFieldPaddingLeft);
-  bottom: calc(50% - .5em);
-
-  line-height: 1;
-  font-size: var(--uiFieldHintFontSize);
-
-  pointer-events: none;
-  transition: bottom .2s cubic-bezier(0.9,-0.15, 0.1, 1.15), opacity .2s ease-out;
-  will-change: bottom, opacity;
-}
-
-.a-field__input:focus ~ .a-field__label-wrap .a-field__label{
-  opacity: 1;
-  bottom: var(--uiFieldHeight);
-}
-
-.a-field_a2 .a-field__label-wrap::after{
-  content: "";
-  box-sizing: border-box;
-  width: 0;
-  height: var(--uiFieldBorderWidth);
-  background-color: var(--fieldBorderColorActive);
-
-  position: absolute;
-  bottom: 0;
-  left: 0;  
-
-  will-change: width;
-  transition: width .285s ease-out;
-}
-
-.a-field_a2 .a-field__input:focus ~ .a-field__label-wrap::after{
-  width: 100%;
-}
-
 .field{
   --fieldBorderColor: #D1C4E9;
   --fieldBorderColorActive: #673AB7;
@@ -230,4 +166,44 @@ LEVEL 3. PRESENTATION STYLES
 
 body{
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Open Sans, Ubuntu, Fira Sans, Helvetica Neue, sans-serif;
+}
+
+.button-container>button{
+  background-color: white;
+  /* min-width: fit-content; */
+  border-radius: 36px;
+  width: 155px;
+  height: 52px;
+  font-size: 16px;
+  display: block;
+  text-align: center;
+  margin: auto;
+  padding: 10px;
+  margin-top: 10px;
+  box-shadow: 0px 9px 20px #302e2e3a;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+}
+
+.create-button{
+  color: rgb(73, 118, 216);
+}
+
+.join-button{
+  color: rgb(190, 118, 238);
+}
+
+.score-board{
+  background-color: rgb(255, 255, 255);
+  border-radius: 36px;
+  height: 30px;
+  margin: auto;
+  width: 150px;
+  margin-bottom: 10px;
+  box-shadow: 0px 9px 20px #302e2e3a;
+}
+
+.score-board p{
+  font-family: 'Nunito Sans', sans-serif;
+  padding-top: 5px;
 }

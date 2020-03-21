@@ -60,7 +60,7 @@ class App extends Component {
           this.pubnub.publish({
             message: {
               roomCreator: true,
-              player1: this.inputRef.current.value
+              player1: this.state.player1
             },
             channel: this.lobbyChannel
           });
@@ -82,9 +82,14 @@ class App extends Component {
   onPressCreate = e => {
     if(!this.inputRef.current.value){
       console.log("Input A name");
-      Swal.fire("Please input Your First Name")
+      Swal.fire({
+        title: "Please input Your Name",
+        confirmButtonColor: "rgb(85, 135, 234)"
+      });
       return;
     }
+
+    this.setState({ player1: this.inputRef.current.value })
     // Create a random name for the channel
     this.roomId = shortid.generate().substring(0, 5);
     this.lobbyChannel = "tictactoelobby--" + this.roomId;
@@ -96,7 +101,7 @@ class App extends Component {
 
     // Open the modal
     Swal.fire({
-      position: "top",
+      
       allowOutsideClick: false,
       title: "Share this room ID with your friend",
       text: this.roomId,
@@ -128,12 +133,11 @@ class App extends Component {
       return;
     }
     Swal.fire({
-      position: "top",
       input: "text",
       allowOutsideClick: false,
       inputPlaceholder: "Enter the room id",
       showCancelButton: true,
-      confirmButtonColor: "rgb(208,33,41)",
+      confirmButtonColor: "rgb(85, 135, 234)",
       confirmButtonText: "OK",
       width: 275,
       padding: "0.7em",
@@ -233,15 +237,17 @@ class App extends Component {
         {!this.state.isPlaying && (
           <div className="game">
             <div className="board">
-              {/* <Board squares={0} onClick={index => null} /> */}
+              <Board squares={0} onClick={index => null} />
 
               <div className="button-container">
                 <div className="page">
                   <label className="field a-field a-field_a1">
-                    <input className="field__input a-field__input" placeholder="e.g. Stanislav" required />
-                    <span className="a-field__label-wrap">
-                      <span className="a-field__label">First name</span>
-                    </span>
+                    <input
+                      type="text"
+                      className="field__input a-field__input"
+                      ref={this.inputRef}
+                      placeholder="Enter Name"
+                    />
                   </label>
                 </div>
                 {/* <input type="text" ref={this.inputRef} /> */}
