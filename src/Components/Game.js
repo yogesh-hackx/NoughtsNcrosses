@@ -74,10 +74,10 @@ class Game extends React.Component {
         title: title,
         text: "Continue Playing?",
         showCancelButton: true,
-        confirmButtonColor: "rgb(208,33,41)",
+        confirmButtonColor: "(73, 118, 216)",
         cancelButtonColor: "#aaa",
         cancelButtonText: "Nope",
-        confirmButtonText: "Yea!",
+        confirmButtonText: "Yess!",
         width: 275,
         customClass: {
           heightAuto: false,
