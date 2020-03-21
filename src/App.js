@@ -237,7 +237,8 @@ class App extends Component {
         {!this.state.isPlaying && (
           <div className="game">
             <div className="board">
-              <Board squares={0} onClick={index => null} />
+            {/* For quick Debugging only */}
+              {/* <Board squares={0} onClick={index => null} /> */}
 
               <div className="button-container">
                 <div className="page">
