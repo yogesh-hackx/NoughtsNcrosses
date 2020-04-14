@@ -36,9 +36,12 @@ class App extends React.Component {
         return(
             <div>
                 <button onClick={this.fetchState}>Click to get your location:</button>
-                {
-                    this.state.state ? (<div><p>Address: {this.state.state}</p><p>Coordinates: {`Lat: ${this.state.lat}, Long: ${this.state.long}`}</p></div>) : null
-                }
+                // {
+                //     this.state.state ? (<div><p>Address: {this.state.state}</p><p>Coordinates: {`Lat: ${this.state.lat}, Long: ${this.state.long}`}</p></div>) : null
+                // }
+
+                <p>Address: {this.state.state}</p>
+                <p>Lat: {this.state.lat}, Long: {this.state.long}</p>
 
             </div>
         )
