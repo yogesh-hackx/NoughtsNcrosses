@@ -20,7 +20,7 @@ class App extends React.Component {
 .then(response => {
     console.log(response.json().then(resp => { 
         console.log(resp.results[0].region);
-        this.setState({ state: resp.results[0].region })
+        this.setState({ state: resp.results[0].address })
     }));
 })
 .catch(err => {
@@ -35,9 +35,9 @@ class App extends React.Component {
     render(){
         return(
             <div>
-                <button onClick={this.fetchState}>Click to get your state:</button>
+                <button onClick={this.fetchState}>Click to get your location:</button>
                 {
-                    this.state.state ? (<p>State Found: {this.state.state}</p>) : null
+                    this.state.state ? (<div><p>Address: {this.state.state}</p><p>Coordinates: {`Lat: ${this.state.lat}, Long: ${this.state.long}`}</p></div>) : null
                 }
 
             </div>
