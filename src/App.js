@@ -229,10 +229,12 @@ class App extends Component {
   render() {
     return (
       <div>
+          <WaveContainer />
         <div className="title">
           <h1>TIC TAC TOE</h1>
+          <h6>An online multiplayer game</h6>
         </div>
-        <WaveContainer />
+        
 
         {!this.state.isPlaying && (
           <div className="game">
@@ -247,7 +249,7 @@ class App extends Component {
                       type="text"
                       className="field__input a-field__input"
                       ref={this.inputRef}
-                      placeholder="Enter Name"
+                      placeholder="Enter Your Name"
                     />
                   </label>
                 </div>
