@@ -8,7 +8,7 @@
 
 > An online multiplayer realtime Tic Tac Toe game.
 
-### ✨ [Live Demo](https://hackxhive.ml/)
+### ✨ [Live Demo](https://noughts-ncrosses.vercel.app/)
 
 ## Install
 
