@@ -223,6 +223,8 @@ class Game extends React.Component {
           <Board
             squares={this.state.squares}
             onClick={index => this.onMakeMove(index)}
+            myTurn={this.state.whosTurn}
+            myPiece={this.props.piece}
           />
         </div>
 
