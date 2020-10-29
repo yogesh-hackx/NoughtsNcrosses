@@ -29,6 +29,8 @@ class Board extends React.Component {
         key={i}
         value={this.props.squares[i]}
         onClick={() => this.props.onClick(i)}
+        myTurn={this.props.myTurn}
+        myPiece={this.props.myPiece}
       />
     );
   }
